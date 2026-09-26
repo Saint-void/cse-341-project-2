@@ -1,0 +1,31 @@
+{
+  "name": "cse-341-project-2",
+  "version": "1.0.0",
+  "description": "CSE 341 Project 2 - Bookstore REST API with MongoDB, Validation, and Swagger",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "swagger": "node swagger.js",
+    "test": "node --check server.js"
+  },
+  "keywords": [
+    "cse341",
+    "mongodb",
+    "rest-api",
+    "swagger",
+    "validatorjs"
+  ],
+  "author": "Sogolo Donaldson",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0",
+    "swagger-ui-express": "^5.0.1",
+    "validatorjs": "^3.22.1"
+  },
+  "devDependencies": {
+    "swagger-autogen": "^2.23.7"
+  }
+}

@@ -1,0 +1,507 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Bookstore API",
+    "description": "CSE 341 Project 2 - Bookstore REST API documentation with full CRUD for Books (8 fields) and Authors (5 fields).",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/books/": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Get all books",
+        "description": "Retrieves an array of all books stored in MongoDB.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of books retrieved successfully",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Book"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Create a new book",
+        "description": "Creates a new book record with 8 required fields: title, author, isbn, publishedYear, genre, pageCount, rating, language.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Book object to create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BookInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Book created successfully with inserted ID"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/books/{id}": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Get a book by ID",
+        "description": "Retrieves a single book document matching the specified 24-character hexadecimal ObjectId.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB Book ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "400": {
+            "description": "Invalid ID format"
+          },
+          "404": {
+            "description": "Book not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Update a book",
+        "description": "Updates an existing book by replacing its document fields.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB Book ObjectId"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated book data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BookInput"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Book updated successfully"
+          },
+          "400": {
+            "description": "Validation failed or invalid ID format"
+          },
+          "404": {
+            "description": "Book not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Delete a book",
+        "description": "Deletes a book document by its 24-character hexadecimal ObjectId.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB Book ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book deleted successfully"
+          },
+          "400": {
+            "description": "Invalid ID format"
+          },
+          "404": {
+            "description": "Book not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/authors/": {
+      "get": {
+        "tags": [
+          "Authors"
+        ],
+        "summary": "Get all authors",
+        "description": "Retrieves an array of all authors stored in MongoDB.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of authors retrieved successfully",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Author"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Authors"
+        ],
+        "summary": "Create a new author",
+        "description": "Creates a new author record with required fields: name, bio, nationality, birthYear, website.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Author object to create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AuthorInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Author created successfully with inserted ID"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/authors/{id}": {
+      "get": {
+        "tags": [
+          "Authors"
+        ],
+        "summary": "Get an author by ID",
+        "description": "Retrieves a single author document matching the specified 24-character hexadecimal ObjectId.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB Author ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Author retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/Author"
+            }
+          },
+          "400": {
+            "description": "Invalid ID format"
+          },
+          "404": {
+            "description": "Author not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Authors"
+        ],
+        "summary": "Update an author",
+        "description": "Updates an existing author by replacing its document fields.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB Author ObjectId"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated author data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AuthorInput"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Author updated successfully"
+          },
+          "400": {
+            "description": "Validation failed or invalid ID format"
+          },
+          "404": {
+            "description": "Author not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Authors"
+        ],
+        "summary": "Delete an author",
+        "description": "Deletes an author document by its 24-character hexadecimal ObjectId.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB Author ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Author deleted successfully"
+          },
+          "400": {
+            "description": "Invalid ID format"
+          },
+          "404": {
+            "description": "Author not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Book": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "66e8b2f9024f22f7b8849b3a"
+        },
+        "title": {
+          "type": "string",
+          "example": "The Great Gatsby"
+        },
+        "author": {
+          "type": "string",
+          "example": "F. Scott Fitzgerald"
+        },
+        "isbn": {
+          "type": "string",
+          "example": "978-0743273565"
+        },
+        "publishedYear": {
+          "type": "number",
+          "example": 1925
+        },
+        "genre": {
+          "type": "string",
+          "example": "Classic Fiction"
+        },
+        "pageCount": {
+          "type": "number",
+          "example": 180
+        },
+        "rating": {
+          "type": "number",
+          "example": 4.5
+        },
+        "language": {
+          "type": "string",
+          "example": "English"
+        }
+      }
+    },
+    "BookInput": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "The Great Gatsby"
+        },
+        "author": {
+          "type": "string",
+          "example": "F. Scott Fitzgerald"
+        },
+        "isbn": {
+          "type": "string",
+          "example": "978-0743273565"
+        },
+        "publishedYear": {
+          "type": "number",
+          "example": 1925
+        },
+        "genre": {
+          "type": "string",
+          "example": "Classic Fiction"
+        },
+        "pageCount": {
+          "type": "number",
+          "example": 180
+        },
+        "rating": {
+          "type": "number",
+          "example": 4.5
+        },
+        "language": {
+          "type": "string",
+          "example": "English"
+        }
+      },
+      "required": [
+        "title",
+        "author",
+        "isbn",
+        "publishedYear",
+        "genre",
+        "pageCount",
+        "rating",
+        "language"
+      ]
+    },
+    "Author": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "66e8b2f9024f22f7b8849b3b"
+        },
+        "name": {
+          "type": "string",
+          "example": "F. Scott Fitzgerald"
+        },
+        "bio": {
+          "type": "string",
+          "example": "Francis Scott Key Fitzgerald was an American novelist and short story writer."
+        },
+        "nationality": {
+          "type": "string",
+          "example": "American"
+        },
+        "birthYear": {
+          "type": "number",
+          "example": 1896
+        },
+        "website": {
+          "type": "string",
+          "example": "https://fscottfitzgerald.org"
+        }
+      }
+    },
+    "AuthorInput": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "F. Scott Fitzgerald"
+        },
+        "bio": {
+          "type": "string",
+          "example": "Francis Scott Key Fitzgerald was an American novelist and short story writer."
+        },
+        "nationality": {
+          "type": "string",
+          "example": "American"
+        },
+        "birthYear": {
+          "type": "number",
+          "example": 1896
+        },
+        "website": {
+          "type": "string",
+          "example": "https://fscottfitzgerald.org"
+        }
+      },
+      "required": [
+        "name",
+        "bio",
+        "nationality",
+        "birthYear",
+        "website"
+      ]
+    }
+  }
+}
