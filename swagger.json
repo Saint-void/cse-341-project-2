@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Bookstore API",
-    "description": "CSE 341 Project 2 - Bookstore REST API documentation with full CRUD for Books (8 fields) and Authors (5 fields).",
+    "description": "Bookstore REST API. Sign in through GitHub at /auth/github; book and author routes require the resulting session cookie.",
     "version": "1.0.0"
   },
   "host": "localhost:8080",
@@ -11,6 +11,14 @@
     "http",
     "https"
   ],
+  "securityDefinitions": {
+    "SessionCookie": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Cookie",
+      "description": "Session cookie named bookstore.sid, set after GitHub OAuth login."
+    }
+  },
   "paths": {
     "/": {
       "get": {
@@ -20,6 +28,109 @@
             "description": "OK"
           }
         }
+      }
+    },
+    "/auth/github": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Sign up or log in with GitHub",
+        "description": "Redirects to GitHub OAuth. A successful callback creates a local session for the GitHub profile.",
+        "responses": {
+          "302": {
+            "description": "Redirect to GitHub for authorization"
+          },
+          "503": {
+            "description": "GitHub OAuth is not configured"
+          }
+        }
+      }
+    },
+    "/auth/github/callback": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Complete GitHub login",
+        "description": "Handles GitHub authorization and redirects to the authenticated profile endpoint.",
+        "responses": {
+          "302": {
+            "description": "Redirect to /auth/me after successful login"
+          },
+          "503": {
+            "description": "GitHub OAuth is not configured"
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Get the authenticated GitHub user",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Authenticated user profile",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "12345"
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "octocat"
+                    },
+                    "displayName": {
+                      "type": "string",
+                      "example": "The Octocat"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required"
+          }
+        },
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Log out",
+        "description": "Ends the current server-side session and clears its cookie.",
+        "responses": {
+          "204": {
+            "description": "Session ended"
+          },
+          "401": {
+            "description": "Authentication required"
+          }
+        },
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ]
       }
     },
     "/books/": {
@@ -45,10 +156,18 @@
               }
             }
           },
+          "401": {
+            "description": "Authentication required"
+          },
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -74,10 +193,18 @@
           "400": {
             "description": "Validation failed"
           },
+          "401": {
+            "description": "Authentication required"
+          },
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ]
       }
     },
     "/books/{id}": {
@@ -109,13 +236,21 @@
           "400": {
             "description": "Invalid ID format"
           },
+          "401": {
+            "description": "Authentication required"
+          },
           "404": {
             "description": "Book not found"
           },
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -148,13 +283,21 @@
           "400": {
             "description": "Validation failed or invalid ID format"
           },
+          "401": {
+            "description": "Authentication required"
+          },
           "404": {
             "description": "Book not found"
           },
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -178,13 +321,21 @@
           "400": {
             "description": "Invalid ID format"
           },
+          "401": {
+            "description": "Authentication required"
+          },
           "404": {
             "description": "Book not found"
           },
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ]
       }
     },
     "/authors/": {
@@ -210,10 +361,18 @@
               }
             }
           },
+          "401": {
+            "description": "Authentication required"
+          },
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -239,10 +398,18 @@
           "400": {
             "description": "Validation failed"
           },
+          "401": {
+            "description": "Authentication required"
+          },
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ]
       }
     },
     "/authors/{id}": {
@@ -274,13 +441,21 @@
           "400": {
             "description": "Invalid ID format"
           },
+          "401": {
+            "description": "Authentication required"
+          },
           "404": {
             "description": "Author not found"
           },
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -313,13 +488,21 @@
           "400": {
             "description": "Validation failed or invalid ID format"
           },
+          "401": {
+            "description": "Authentication required"
+          },
           "404": {
             "description": "Author not found"
           },
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -343,13 +526,21 @@
           "400": {
             "description": "Invalid ID format"
           },
+          "401": {
+            "description": "Authentication required"
+          },
           "404": {
             "description": "Author not found"
           },
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ]
       }
     }
   },

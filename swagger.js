@@ -6,10 +6,18 @@ dotenv.config();
 const doc = {
   info: {
     title: 'Bookstore API',
-    description: 'CSE 341 Project 2 - Bookstore REST API documentation with full CRUD for Books (8 fields) and Authors (5 fields).'
+    description: 'Bookstore REST API. Sign in through GitHub at /auth/github; book and author routes require the resulting session cookie.'
   },
   host: process.env.SWAGGER_HOST || 'localhost:8080',
   schemes: ['http', 'https'],
+  securityDefinitions: {
+    SessionCookie: {
+      type: 'apiKey',
+      in: 'header',
+      name: 'Cookie',
+      description: 'Session cookie named bookstore.sid, set after GitHub OAuth login.'
+    }
+  },
   definitions: {
     Book: {
       _id: '66e8b2f9024f22f7b8849b3a',
