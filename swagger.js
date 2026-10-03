@@ -9,7 +9,7 @@ const doc = {
     description: 'Bookstore REST API. Sign in through GitHub at /auth/github; book and author routes require the resulting session cookie.'
   },
   host: process.env.SWAGGER_HOST || 'localhost:8080',
-  schemes: ['http', 'https'],
+  schemes: [process.env.SWAGGER_SCHEME || 'http'],
   securityDefinitions: {
     SessionCookie: {
       type: 'apiKey',
