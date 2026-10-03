@@ -5,7 +5,7 @@
     "description": "Bookstore REST API. Sign in through GitHub at /auth/github; book and author routes require the resulting session cookie.",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "cse-341-project-2-gsq0.onrender.com",
   "basePath": "/",
   "schemes": [
     "http",
