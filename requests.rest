@@ -1,5 +1,5 @@
 ### Variables
-@host = http://localhost:8080
+@host = https://cse-341-project-2-gsq0.onrender.com
 # @host = https://your-render-service.onrender.com
 
 ### =========================================================================
